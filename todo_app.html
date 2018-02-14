@@ -1,0 +1,168 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+  <title>React! React! React!</title>
+  <script src="https://unpkg.com/react@15.3.2/dist/react.js"></script>
+  <script src="https://unpkg.com/react-dom@15.3.2/dist/react-dom.js"></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/babel-standalone/6.26.0/babel.min.js"></script>
+
+  <style>
+    body {
+      padding: 50px;
+      background-color: #66CCFF;
+      font-family: sans-serif;
+    }
+
+    .todoListMain .header input {
+      padding: 10px;
+      font-size: 16px;
+      border: 2px solid #FFF;
+    }
+
+    .todoListMain .header button {
+      padding: 10px;
+      font-size: 16px;
+      margin: 10px;
+      background-color: #0066FF;
+      color: #FFF;
+      border: 2px solid #0066FF;
+    }
+
+    .todoListMain .header button:hover {
+      background-color: #003399;
+      border: 2px solid #003399;
+      cursor: pointer;
+    }
+
+    .todoListMain .theList {
+      list-style: none;
+      padding-left: 0;
+      width: 255px;
+    }
+
+    .todoListMain .theList li {
+      color: #333;
+      background-color: rgba(255,255,255,.5);
+      padding: 15px;
+      margin-bottom: 15px;
+      border-radius: 5px;
+    }
+
+    .todoListMain .theList li span {
+      display: block;
+      padding: 0px 10px 0px 10px;
+      margin-right: 0;
+      float: right;
+    }
+
+    .todoListMain .theList li span:hover {
+      cursor: pointer;
+    }
+  </style>
+</head>
+
+<body>
+  <div id="container"></div>
+
+  <script type="text/babel">
+
+    const destination = document.querySelector("#container");
+
+    // TodoList main/wrapping component
+    const TodoList = React.createClass({
+      getInitialState() {
+        return {
+          items: []
+        };
+      },
+
+      addItem(e) {
+        const itemArray = this.state.items;
+
+        if (this._inputElement.value.trim()) {
+        itemArray.push(
+          {
+            key: Date.now(),
+            text: this._inputElement.value
+          }
+        )} else {
+          console.log('Задача не может быть пустой!')
+        };
+
+        // Update the app state
+        this.setState({
+          items: itemArray
+        });
+
+        e.preventDefault();
+
+        this._inputElement.value = '';
+        this._inputElement.focus();
+      },
+
+      removeItem(e) {
+        const itemArray = this.state.items;
+
+        const itemToRemoveUID = e.target.parentNode.getAttribute('data-uid');
+
+        itemArray.forEach(function(val, index) {
+          if (val.key == itemToRemoveUID) {
+            itemArray.splice(index, 1);
+          }
+        });
+
+        // Update the app state
+        this.setState({
+          items: itemArray
+        });
+      },
+
+      render() {
+        return (
+          <div className="todoListMain">
+            <div className="header">
+              <form onSubmit={this.addItem}>
+                <input ref={ (el) => (this._inputElement = el) } placeholder="Новая задача"></input>
+                <button type="submit">+</button>
+              </form>
+            </div>
+            <TodoItems items={this.state.items} clickHandler={this.removeItem} />
+          </div>
+        );
+      }
+    });
+
+    // TodoItems nested component
+    const TodoItems = React.createClass({
+      getListItems() {
+        const items = this.props.items;
+        const clickHandler = this.props.clickHandler;
+
+        function createTasks(item) {
+          return <li key={item.key} data-uid={item.key}>{item.text}<span onClick={clickHandler}>x</span></li>
+        }
+
+        return items.map(createTasks);
+      },
+
+      render() {
+        return (
+          <ul className="theList">
+            {this.getListItems()}
+          </ul>
+        );
+      }
+    });
+
+    // Render the app into DOM
+    ReactDOM.render(
+      <div>
+        <TodoList/>
+      </div>,
+      destination
+    );
+  </script>
+</body>
+
+</html>

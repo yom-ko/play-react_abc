@@ -1,0 +1,81 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+  <title>React Components</title>
+  <script src="https://unpkg.com/react@15.3.2/dist/react.js"></script>
+  <script src="https://unpkg.com/react-dom@15.3.2/dist/react-dom.js"></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/babel-standalone/6.26.0/babel.min.js"></script>
+
+  <style>
+    #container {
+      padding: 50px;
+      background-color: #FFF;
+    }
+  </style>
+</head>
+
+<body>
+  <div id="container"></div>
+
+  <script type="text/babel">
+
+  const Label = React.createClass({
+    render() {
+      const labelStyle = {
+        fontFamily: `sans-serif`,
+        fontWeight: `bold`,
+        padding: 13,
+        margin: `0`
+      };
+
+      return (
+        <p style={labelStyle}>{this.props.color}</p>
+      );
+    }
+  });
+
+  const Square = React.createClass({
+    render() {
+      const squareStyle = {
+        height: 150,
+        backgroundColor: this.props.color
+      };
+
+      return(
+        <div style={squareStyle}>
+        </div>
+      );
+    }
+  });
+
+  const Card = React.createClass({
+    render() {
+      const cardStyle = {
+        height: 200,
+        width: 150,
+        padding: 0,
+        backgroundColor: "#FFF",
+        WebkitFilter: "drop-shadow(0px 0px 5px #666)",
+        filter: "drop-shadow(0px 0px 5px #666)"
+      };
+
+      return (
+        <div style={cardStyle}>
+          <Square {...this.props}/>
+          <Label {...this.props}/>
+        </div>
+      );
+    }
+  });
+
+  ReactDOM.render(
+    <div>
+      <Card color="#FFA737"/>
+    </div>,
+    document.querySelector("#container")
+  );
+  </script>
+</body>
+
+</html>
