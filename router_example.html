@@ -65,92 +65,68 @@
     } = ReactRouterDOM;
 
     // Main wrapper
-    class App extends React.Component {
-      constructor(props, context) {
-        super(props, context);
-      }
-
-      render() {
-        return (
-          <div>
-            <h1>Simple SPA</h1>
-            <ul className="header">
-              <li><NavLink exact activeClassName="active" to='/'>Home</NavLink></li>
-              <li><NavLink activeClassName="active" to='/stuff'>Stuff</NavLink></li>
-              <li><NavLink activeClassName="active" to='/contact'>Contact</NavLink></li>
-            </ul>
-            <div className="content">
-             {this.props.children}
-            </div>
+    const App = (props) => {
+      return (
+        <div>
+          <h1>Simple SPA</h1>
+          <ul className="header">
+            <li><NavLink exact activeClassName="active" to='/'>Home</NavLink></li>
+            <li><NavLink activeClassName="active" to='/stuff'>Stuff</NavLink></li>
+            <li><NavLink activeClassName="active" to='/contact'>Contact</NavLink></li>
+          </ul>
+          <div className="content">
+            {props.children}
           </div>
-        );
-      }
+        </div>
+      );
     }
 
     // Home page
-    class Home extends React.Component {
-      constructor(props, context) {
-        super(props, context);
-      }
-
-      render() {
-        return (
-          <div>
-            <h2>HELLO</h2>
-            <p>Cras facilisis urna ornare ex volutpat, et
-            convallis erat elementum. Ut aliquam, ipsum vitae
-            gravida suscipit, metus dui bibendum est, eget rhoncus nibh
-            metus nec massa. Maecenas hendrerit laoreet augue
-            nec molestie. Cum sociis natoque penatibus et magnis
-            dis parturient montes, nascetur ridiculus mus.</p>
-            <p>Duis a turpis sed lacus dapibus elementum sed eu lectus.</p>
-          </div>
-        );
-      }
+    const Home = () => {
+      return (
+        <div>
+          <h2>HELLO</h2>
+          <p>Cras facilisis urna ornare ex volutpat, et
+          convallis erat elementum. Ut aliquam, ipsum vitae
+          gravida suscipit, metus dui bibendum est, eget rhoncus nibh
+          metus nec massa. Maecenas hendrerit laoreet augue
+          nec molestie. Cum sociis natoque penatibus et magnis
+          dis parturient montes, nascetur ridiculus mus.</p>
+          <p>Duis a turpis sed lacus dapibus elementum sed eu lectus.</p>
+        </div>
+      );
     }
 
     // Contact page
-    class Contact extends React.Component {
-      constructor(props, context) {
-        super(props, context);
-      }
-
-      render() {
-        return (
-          <div>
-            <h2>GOT QUESTIONS?</h2>
-              <p>The easiest thing to do is post on our <a href="http://forum.kirupa.com">forums</a>.
-              </p>
-          </div>
-        );
-      }
+    const Contact = () => {
+      return (
+        <div>
+          <h2>GOT QUESTIONS?</h2>
+            <p>The easiest thing to do is post on our <a href="http://forum.kirupa.com">forums</a>.
+            </p>
+        </div>
+      );
     }
 
     // Stuff page
-    class Stuff extends React.Component {
-      constructor(props, context) {
-        super(props, context);
-      }
-
-      render() {
-        return (
-          <div>
-            <h2>STUFF</h2>
-            <p>Mauris sem velit, vehicula eget sodales vitae,
-            rhoncus eget sapien:</p>
-            <ol>
-              <li>Nulla pulvinar diam</li>
-              <li>Facilisis bibendum</li>
-              <li>Vestibulum vulputate</li>
-              <li>Eget erat</li>
-              <li>Id porttitor</li>
-            </ol>
-          </div>
-        );
-      }
+    const Stuff = () => {
+      return (
+        <div>
+          <h2>STUFF</h2>
+          <p>Mauris sem velit, vehicula eget sodales vitae,
+          rhoncus eget sapien:</p>
+          <ol>
+            <li>Nulla pulvinar diam</li>
+            <li>Facilisis bibendum</li>
+            <li>Vestibulum vulputate</li>
+            <li>Eget erat</li>
+            <li>Id porttitor</li>
+          </ol>
+        </div>
+      );
     }
 
-    // Render app into DOM
+    // Render app into the DOM
     ReactDOM.render(
       <HashRouter>
         <App>
