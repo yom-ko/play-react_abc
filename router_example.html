@@ -3,10 +3,11 @@
 
 <head>
   <title>React! React! React!</title>
-  <script crossorigin src="https://unpkg.com/react@15.4.2/dist/react.min.js"></script>
-  <script crossorigin src="https://unpkg.com/react-dom@15.4.2/dist/react-dom.min.js"></script>
-  <script src="https://cdnjs.cloudflare.com/ajax/libs/babel-standalone/6.26.0/babel.min.js"></script>
-  <script src="https://npmcdn.com/react-router@3.0.2/umd/ReactRouter.min.js"></script>
+  <script crossorigin src="https://unpkg.com/react@16/umd/react.development.js"></script>
+  <script crossorigin src="https://unpkg.com/react-dom@16/umd/react-dom.development.js"></script>
+  <script src="https://unpkg.com/react-router-dom/umd/react-router-dom.min.js"></script>
+  <script src="https://unpkg.com/babel-standalone@6/babel.min.js"></script>
+
   <style>
     body {
       background-color: #FFCC00;
@@ -50,40 +51,48 @@
 </head>
 
 <body>
+
   <div id="container"></div>
 
   <script type="text/babel">
-    const {
-      Router,
-      Route,
-      IndexRoute,
-      IndexLink,
-      Link
-    } = ReactRouter;
 
     const destination = document.querySelector("#container");
 
-    const hashHistory = ReactRouter.hashHistory;
+    const {
+      HashRouter,
+      Route,
+      NavLink
+    } = ReactRouterDOM;
 
-    const App = React.createClass({
+    // Main wrapper
+    class App extends React.Component {
+      constructor(props, context) {
+        super(props, context);
+      }
+
       render() {
         return (
           <div>
             <h1>Simple SPA</h1>
             <ul className="header">
-              <li><IndexLink activeClassName="active" to='/'>Home</IndexLink></li>
-              <li><Link activeClassName="active" to='/stuff'>Stuff</Link></li>
-              <li><Link activeClassName="active" to='/contact'>Contact</Link></li>
+              <li><NavLink exact activeClassName="active" to='/'>Home</NavLink></li>
+              <li><NavLink activeClassName="active" to='/stuff'>Stuff</NavLink></li>
+              <li><NavLink activeClassName="active" to='/contact'>Contact</NavLink></li>
             </ul>
             <div className="content">
              {this.props.children}
             </div>
           </div>
-        )
+        );
       }
-    });
+    }
 
-    const Home = React.createClass({
+    // Home page
+    class Home extends React.Component {
+      constructor(props, context) {
+        super(props, context);
+      }
+
       render() {
         return (
           <div>
@@ -98,9 +107,14 @@
           </div>
         );
       }
-    });
+    }
 
-    const Contact = React.createClass({
+    // Contact page
+    class Contact extends React.Component {
+      constructor(props, context) {
+        super(props, context);
+      }
+
       render() {
         return (
           <div>
@@ -110,37 +124,44 @@
           </div>
         );
       }
-    });
-
-  const Stuff = React.createClass({
-    render() {
-      return (
-        <div>
-          <h2>STUFF</h2>
-          <p>Mauris sem velit, vehicula eget sodales vitae,
-          rhoncus eget sapien:</p>
-          <ol>
-            <li>Nulla pulvinar diam</li>
-            <li>Facilisis bibendum</li>
-            <li>Vestibulum vulputate</li>
-            <li>Eget erat</li>
-            <li>Id porttitor</li>
-          </ol>
-        </div>
-      );
     }
-  });
 
+    // Stuff page
+    class Stuff extends React.Component {
+      constructor(props, context) {
+        super(props, context);
+      }
+
+      render() {
+        return (
+          <div>
+            <h2>STUFF</h2>
+            <p>Mauris sem velit, vehicula eget sodales vitae,
+            rhoncus eget sapien:</p>
+            <ol>
+              <li>Nulla pulvinar diam</li>
+              <li>Facilisis bibendum</li>
+              <li>Vestibulum vulputate</li>
+              <li>Eget erat</li>
+              <li>Id porttitor</li>
+            </ol>
+          </div>
+        );
+      }
+    }
+
+    // Render app into DOM
     ReactDOM.render(
-      <Router history={hashHistory}>
-        <Route path="/" component={App}>
-          <IndexRoute component={Home} />
-          <Route path="stuff" component={Stuff} />
-          <Route path="contact" component={Contact} />
-        </Route>
-      </Router>,
+      <HashRouter>
+        <App>
+          <Route exact path="/" component={Home} />
+          <Route path="/stuff" component={Stuff} />
+          <Route path="/contact" component={Contact} />
+        </App>
+      </HashRouter>,
       destination
     );
+
   </script>
 </body>
 
