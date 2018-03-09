@@ -5,6 +5,7 @@
   <title>React! React! React!</title>
   <script crossorigin src="https://unpkg.com/react@16/umd/react.development.js"></script>
   <script crossorigin src="https://unpkg.com/react-dom@16/umd/react-dom.development.js"></script>
+  <script crossorigin src="https://unpkg.com/prop-types@15.6.1/prop-types.js"></script>
   <script src="https://unpkg.com/react-router-dom/umd/react-router-dom.min.js"></script>
   <script src="https://unpkg.com/babel-standalone@6/babel.min.js"></script>
 
@@ -61,7 +62,8 @@
     const {
       HashRouter,
       Route,
-      NavLink
+      NavLink,
+      withRouter
     } = ReactRouterDOM;
 
     // Main wrapper
@@ -82,20 +84,45 @@
     }
 
     // Home page
-    const Home = () => {
-      return (
-        <div>
-          <h2>HELLO</h2>
-          <p>Cras facilisis urna ornare ex volutpat, et
-          convallis erat elementum. Ut aliquam, ipsum vitae
-          gravida suscipit, metus dui bibendum est, eget rhoncus nibh
-          metus nec massa. Maecenas hendrerit laoreet augue
-          nec molestie. Cum sociis natoque penatibus et magnis
-          dis parturient montes, nascetur ridiculus mus.</p>
-          <p>Duis a turpis sed lacus dapibus elementum sed eu lectus.</p>
-        </div>
-      );
+    // const Home = (props) => {
+    //   return (
+    //     <div>
+    //       <h2>HELLO</h2>
+    //       <p>Cras facilisis urna ornare ex volutpat, et
+    //       convallis erat elementum. Ut aliquam, ipsum vitae
+    //       gravida suscipit, metus dui bibendum est, eget rhoncus nibh
+    //       metus nec massa. Maecenas hendrerit laoreet augue
+    //       nec molestie. Cum sociis natoque penatibus et magnis
+    //       dis parturient montes, nascetur ridiculus mus.</p>
+    //       <p>Duis a turpis sed lacus dapibus elementum sed eu lectus.</p>
+    //     </div>
+    //   );
+    // }
+
+    class Home extends React.Component {
+      static propTypes = {
+        location: PropTypes.object.isRequired,
+        history: PropTypes.object.isRequired
+      };
+
+      render() {
+        const { location, history } = this.props;
+
+        setTimeout(() => {
+          this.props.history.push('/contact');
+        }, 1000)
+
+        return(
+          <div>
+            <h2>HELLO - {location.pathname}</h2>
+            <p>Cras facilisis urna ornare ex volutpat, et convallis erat elementum. Ut aliquam,   ipsumvitae gravida suscipit, metus dui bibendum est, eget rhoncus nibh metus nec  massa.Maecenas   hendrerit laoreet augue nec molestie. Cum sociis natoque penatibus et   magnisdis parturient montes, nascetur ridiculus mus.</p>
+            <p>Duis a turpis sed lacus dapibus elementum sed eu lectus.</p>
+          </div>
+        )
+      }
     }
+
+    const HomeWithRouter = withRouter(Home);
 
     // Contact page
     const Contact = () => {
@@ -130,7 +157,7 @@
     ReactDOM.render(
       <HashRouter>
         <App>
-          <Route exact path="/" component={Home} />
+          <Route exact path="/" component={HomeWithRouter} />
           <Route path="/stuff" component={Stuff} />
           <Route path="/contact" component={Contact} />
         </App>
